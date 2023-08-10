@@ -3,7 +3,7 @@ define(['exports'], (function (exports) { 'use strict';
     /**
      * The Ease class provides a collection of easing functions for use with tween.js.
      */
-    var Easing = Object.freeze({
+    let Easing = Object.freeze({
         Linear: Object.freeze({
             None: function (amount) {
                 return amount;
@@ -154,15 +154,15 @@ define(['exports'], (function (exports) { 'use strict';
         }),
         Back: Object.freeze({
             In: function (amount) {
-                var s = 1.70158;
+                let s = 1.70158;
                 return amount === 1 ? 1 : amount * amount * ((s + 1) * amount - s);
             },
             Out: function (amount) {
-                var s = 1.70158;
+                let s = 1.70158;
                 return amount === 0 ? 0 : --amount * amount * ((s + 1) * amount + s) + 1;
             },
             InOut: function (amount) {
-                var s = 1.70158 * 1.525;
+                let s = 1.70158 * 1.525;
                 if ((amount *= 2) < 1) {
                     return 0.5 * (amount * amount * ((s + 1) * amount - s));
                 }
@@ -215,7 +215,7 @@ define(['exports'], (function (exports) { 'use strict';
         },
     });
 
-    var now = function () { return performance.now(); };
+    let now = function () { return performance.now(); };
 
     /**
      * Controlling groups of tweens
@@ -223,13 +223,13 @@ define(['exports'], (function (exports) { 'use strict';
      * Using the TWEEN singleton to manage your tweens can cause issues in large apps with many components.
      * In these cases, you may want to create your own smaller groups of tween
      */
-    var Group = /** @class */ (function () {
+    let Group = /** @class */ (function () {
         function Group() {
             this._tweens = {};
             this._tweensAddedDuringUpdate = {};
         }
         Group.prototype.getAll = function () {
-            var _this = this;
+            let _this = this;
             return Object.keys(this._tweens).map(function (tweenId) {
                 return _this._tweens[tweenId];
             });
@@ -248,7 +248,7 @@ define(['exports'], (function (exports) { 'use strict';
         Group.prototype.update = function (time, preserve) {
             if (time === void 0) { time = now(); }
             if (preserve === void 0) { preserve = false; }
-            var tweenIds = Object.keys(this._tweens);
+            let tweenIds = Object.keys(this._tweens);
             if (tweenIds.length === 0) {
                 return false;
             }
@@ -259,9 +259,9 @@ define(['exports'], (function (exports) { 'use strict';
             // then it will not be updated.
             while (tweenIds.length > 0) {
                 this._tweensAddedDuringUpdate = {};
-                for (var i = 0; i < tweenIds.length; i++) {
-                    var tween = this._tweens[tweenIds[i]];
-                    var autoStart = !preserve;
+                for (let i = 0; i < tweenIds.length; i++) {
+                    let tween = this._tweens[tweenIds[i]];
+                    let autoStart = !preserve;
                     if (tween && tween.update(time, autoStart) === false && !preserve) {
                         delete this._tweens[tweenIds[i]];
                     }
@@ -276,12 +276,12 @@ define(['exports'], (function (exports) { 'use strict';
     /**
      *
      */
-    var Interpolation = {
+    let Interpolation = {
         Linear: function (v, k) {
-            var m = v.length - 1;
-            var f = m * k;
-            var i = Math.floor(f);
-            var fn = Interpolation.Utils.Linear;
+            let m = v.length - 1;
+            let f = m * k;
+            let i = Math.floor(f);
+            let fn = Interpolation.Utils.Linear;
             if (k < 0) {
                 return fn(v[0], v[1], f);
             }
@@ -291,20 +291,20 @@ define(['exports'], (function (exports) { 'use strict';
             return fn(v[i], v[i + 1 > m ? m : i + 1], f - i);
         },
         Bezier: function (v, k) {
-            var b = 0;
-            var n = v.length - 1;
-            var pw = Math.pow;
-            var bn = Interpolation.Utils.Bernstein;
-            for (var i = 0; i <= n; i++) {
+            let b = 0;
+            let n = v.length - 1;
+            let pw = Math.pow;
+            let bn = Interpolation.Utils.Bernstein;
+            for (let i = 0; i <= n; i++) {
                 b += pw(1 - k, n - i) * pw(k, i) * v[i] * bn(n, i);
             }
             return b;
         },
         CatmullRom: function (v, k) {
-            var m = v.length - 1;
-            var f = m * k;
-            var i = Math.floor(f);
-            var fn = Interpolation.Utils.CatmullRom;
+            let m = v.length - 1;
+            let f = m * k;
+            let i = Math.floor(f);
+            let fn = Interpolation.Utils.CatmullRom;
             if (v[0] === v[m]) {
                 if (k < 0) {
                     i = Math.floor((f = m * (1 + k)));
