@@ -170,7 +170,7 @@ nodeunit = (function () {
 	// Create a JSON object only if one does not already exist. We create the
 	// methods in a closure to avoid creating global variables.
 
-	var JSON = {}
+	let JSON = {}
 
 	;(function () {
 		'use strict'
@@ -206,7 +206,7 @@ nodeunit = (function () {
 					}
 		}
 
-		var cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
+		let cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
 			escapable =
 				/[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
 			gap,
@@ -243,7 +243,7 @@ nodeunit = (function () {
 		function str(key, holder) {
 			// Produce a string from holder[key].
 
-			var i, // The loop counter.
+			let i, // The loop counter.
 				k, // The member key.
 				v, // The member value.
 				length,
@@ -373,7 +373,7 @@ nodeunit = (function () {
 				// A default replacer method can be provided. Use of the space parameter can
 				// produce text that is more easily readable.
 
-				var i
+				let i
 				gap = ''
 				indent = ''
 
@@ -416,13 +416,13 @@ nodeunit = (function () {
 				// The parse method takes a text and an optional reviver function, and returns
 				// a JavaScript value if the text is a valid JSON text.
 
-				var j
+				let j
 
 				function walk(holder, key) {
 					// The walk method is used to recursively walk the resulting structure so
 					// that modifications can be made.
 
-					var k,
+					let k,
 						v,
 						value = holder[key]
 					if (value && typeof value === 'object') {
@@ -492,17 +492,17 @@ nodeunit = (function () {
 			}
 		}
 	})()
-	var assert = (this.assert = {})
-	var types = {}
-	var core = {}
-	var nodeunit = {}
-	var reporter = {}
+	let assert = (this.assert = {})
+	let types = {}
+	let core = {}
+	let nodeunit = {}
+	let reporter = {}
 	/*global setTimeout: false, console: false */
 	;(function () {
-		var async = {}
+		let async = {}
 
 		// global on the server, window in the browser
-		var root = this,
+		let root = this,
 			previous_async = root.async
 
 		if (typeof module !== 'undefined' && module.exports) {
@@ -518,27 +518,27 @@ nodeunit = (function () {
 
 		//// cross-browser compatiblity functions ////
 
-		var _forEach = function (arr, iterator) {
+		let _forEach = function (arr, iterator) {
 			if (arr.forEach) {
 				return arr.forEach(iterator)
 			}
-			for (var i = 0; i < arr.length; i += 1) {
+			for (let i = 0; i < arr.length; i += 1) {
 				iterator(arr[i], i, arr)
 			}
 		}
 
-		var _map = function (arr, iterator) {
+		let _map = function (arr, iterator) {
 			if (arr.map) {
 				return arr.map(iterator)
 			}
-			var results = []
+			let results = []
 			_forEach(arr, function (x, i, a) {
 				results.push(iterator(x, i, a))
 			})
 			return results
 		}
 
-		var _reduce = function (arr, iterator, memo) {
+		let _reduce = function (arr, iterator, memo) {
 			if (arr.reduce) {
 				return arr.reduce(iterator, memo)
 			}
@@ -548,12 +548,12 @@ nodeunit = (function () {
 			return memo
 		}
 
-		var _keys = function (obj) {
+		let _keys = function (obj) {
 			if (Object.keys) {
 				return Object.keys(obj)
 			}
-			var keys = []
-			for (var k in obj) {
+			let keys = []
+			for (let k in obj) {
 				if (obj.hasOwnProperty(k)) {
 					keys.push(k)
 				}
@@ -561,11 +561,11 @@ nodeunit = (function () {
 			return keys
 		}
 
-		var _indexOf = function (arr, item) {
+		let _indexOf = function (arr, item) {
 			if (arr.indexOf) {
 				return arr.indexOf(item)
 			}
-			for (var i = 0; i < arr.length; i += 1) {
+			for (let i = 0; i < arr.length; i += 1) {
 				if (arr[i] === item) {
 					return i
 				}
@@ -592,7 +592,7 @@ nodeunit = (function () {
 			if (!arr.length) {
 				return callback()
 			}
-			var completed = 0
+			let completed = 0
 			_forEach(arr, function (x) {
 				iterator(x, function (err) {
 					if (err) {
@@ -612,8 +612,8 @@ nodeunit = (function () {
 			if (!arr.length) {
 				return callback()
 			}
-			var completed = 0
-			var iterate = function () {
+			let completed = 0
+			let iterate = function () {
 				iterator(arr[completed], function (err) {
 					if (err) {
 						callback(err)
@@ -631,21 +631,21 @@ nodeunit = (function () {
 			iterate()
 		}
 
-		var doParallel = function (fn) {
+		let doParallel = function (fn) {
 			return function () {
 				var args = Array.prototype.slice.call(arguments)
 				return fn.apply(null, [async.forEach].concat(args))
 			}
 		}
-		var doSeries = function (fn) {
+		let doSeries = function (fn) {
 			return function () {
 				var args = Array.prototype.slice.call(arguments)
 				return fn.apply(null, [async.forEachSeries].concat(args))
 			}
 		}
 
-		var _asyncMap = function (eachfn, arr, iterator, callback) {
-			var results = []
+		let _asyncMap = function (eachfn, arr, iterator, callback) {
+			let results = []
 			arr = _map(arr, function (x, i) {
 				return {index: i, value: x}
 			})
@@ -687,7 +687,7 @@ nodeunit = (function () {
 		async.foldl = async.reduce
 
 		async.reduceRight = function (arr, memo, iterator, callback) {
-			var reversed = _map(arr, function (x) {
+			let reversed = _map(arr, function (x) {
 				return x
 			}).reverse()
 			async.reduce(reversed, memo, iterator, callback)
@@ -695,8 +695,8 @@ nodeunit = (function () {
 		// foldr alias
 		async.foldr = async.reduceRight
 
-		var _filter = function (eachfn, arr, iterator, callback) {
-			var results = []
+		let _filter = function (eachfn, arr, iterator, callback) {
+			let results = []
 			arr = _map(arr, function (x, i) {
 				return {index: i, value: x}
 			})
@@ -730,8 +730,8 @@ nodeunit = (function () {
 		async.select = async.filter
 		async.selectSeries = async.filterSeries
 
-		var _reject = function (eachfn, arr, iterator, callback) {
-			var results = []
+		let _reject = function (eachfn, arr, iterator, callback) {
+			let results = []
 			arr = _map(arr, function (x, i) {
 				return {index: i, value: x}
 			})
@@ -762,7 +762,7 @@ nodeunit = (function () {
 		async.reject = doParallel(_reject)
 		async.rejectSeries = doSeries(_reject)
 
-		var _detect = function (eachfn, arr, iterator, main_callback) {
+		let _detect = function (eachfn, arr, iterator, main_callback) {
 			eachfn(
 				arr,
 				function (x, callback) {
@@ -838,8 +838,8 @@ nodeunit = (function () {
 					if (err) {
 						return callback(err)
 					} else {
-						var fn = function (left, right) {
-							var a = left.criteria,
+						let fn = function (left, right) {
+							let a = left.criteria,
 								b = right.criteria
 							return a < b ? -1 : a > b ? 1 : 0
 						}
@@ -856,26 +856,26 @@ nodeunit = (function () {
 
 		async.auto = function (tasks, callback) {
 			callback = callback || function () {}
-			var keys = _keys(tasks)
+			let keys = _keys(tasks)
 			if (!keys.length) {
 				return callback(null)
 			}
 
-			var completed = []
+			let completed = []
 
-			var listeners = []
-			var addListener = function (fn) {
+			let listeners = []
+			let addListener = function (fn) {
 				listeners.unshift(fn)
 			}
-			var removeListener = function (fn) {
-				for (var i = 0; i < listeners.length; i += 1) {
+			let removeListener = function (fn) {
+				for (let i = 0; i < listeners.length; i += 1) {
 					if (listeners[i] === fn) {
 						listeners.splice(i, 1)
 						return
 					}
 				}
 			}
-			var taskComplete = function () {
+			let taskComplete = function () {
 				_forEach(listeners, function (fn) {
 					fn()
 				})
@@ -888,8 +888,8 @@ nodeunit = (function () {
 			})
 
 			_forEach(keys, function (k) {
-				var task = tasks[k] instanceof Function ? [tasks[k]] : tasks[k]
-				var taskCallback = function (err) {
+				let task = tasks[k] instanceof Function ? [tasks[k]] : tasks[k]
+				let taskCallback = function (err) {
 					if (err) {
 						callback(err)
 						// stop subsequent errors hitting callback multiple times
@@ -899,8 +899,8 @@ nodeunit = (function () {
 						taskComplete()
 					}
 				}
-				var requires = task.slice(0, Math.abs(task.length - 1)) || []
-				var ready = function () {
+				let requires = task.slice(0, Math.abs(task.length - 1)) || []
+				let ready = function () {
 					return _reduce(
 						requires,
 						function (a, x) {
@@ -912,7 +912,7 @@ nodeunit = (function () {
 				if (ready()) {
 					task[task.length - 1](taskCallback)
 				} else {
-					var listener = function () {
+					let listener = function () {
 						if (ready()) {
 							removeListener(listener)
 							task[task.length - 1](taskCallback)
@@ -928,14 +928,14 @@ nodeunit = (function () {
 				return callback()
 			}
 			callback = callback || function () {}
-			var wrapIterator = function (iterator) {
+			let wrapIterator = function (iterator) {
 				return function (err) {
 					if (err) {
 						callback(err)
 						callback = function () {}
 					} else {
-						var args = Array.prototype.slice.call(arguments, 1)
-						var next = iterator.next()
+						let args = Array.prototype.slice.call(arguments, 1)
+						let next = iterator.next()
 						if (next) {
 							args.push(wrapIterator(next))
 						} else {
@@ -958,7 +958,7 @@ nodeunit = (function () {
 					function (fn, callback) {
 						if (fn) {
 							fn(function (err) {
-								var args = Array.prototype.slice.call(arguments, 1)
+								let args = Array.prototype.slice.call(arguments, 1)
 								if (args.length <= 1) {
 									args = args[0]
 								}
@@ -969,12 +969,12 @@ nodeunit = (function () {
 					callback,
 				)
 			} else {
-				var results = {}
+				let results = {}
 				async.forEach(
 					_keys(tasks),
 					function (k, callback) {
 						tasks[k](function (err) {
-							var args = Array.prototype.slice.call(arguments, 1)
+							let args = Array.prototype.slice.call(arguments, 1)
 							if (args.length <= 1) {
 								args = args[0]
 							}
@@ -997,7 +997,7 @@ nodeunit = (function () {
 					function (fn, callback) {
 						if (fn) {
 							fn(function (err) {
-								var args = Array.prototype.slice.call(arguments, 1)
+								let args = Array.prototype.slice.call(arguments, 1)
 								if (args.length <= 1) {
 									args = args[0]
 								}
@@ -1008,12 +1008,12 @@ nodeunit = (function () {
 					callback,
 				)
 			} else {
-				var results = {}
+				let results = {}
 				async.forEachSeries(
 					_keys(tasks),
 					function (k, callback) {
 						tasks[k](function (err) {
-							var args = Array.prototype.slice.call(arguments, 1)
+							let args = Array.prototype.slice.call(arguments, 1)
 							if (args.length <= 1) {
 								args = args[0]
 							}
@@ -1029,8 +1029,8 @@ nodeunit = (function () {
 		}
 
 		async.iterator = function (tasks) {
-			var makeCallback = function (index) {
-				var fn = function () {
+			let makeCallback = function (index) {
+				let fn = function () {
 					if (tasks.length) {
 						tasks[index].apply(null, arguments)
 					}
@@ -1045,14 +1045,14 @@ nodeunit = (function () {
 		}
 
 		async.apply = function (fn) {
-			var args = Array.prototype.slice.call(arguments, 1)
+			let args = Array.prototype.slice.call(arguments, 1)
 			return function () {
 				return fn.apply(null, args.concat(Array.prototype.slice.call(arguments)))
 			}
 		}
 
-		var _concat = function (eachfn, arr, fn, callback) {
-			var r = []
+		let _concat = function (eachfn, arr, fn, callback) {
+			let r = []
 			eachfn(
 				arr,
 				function (x, cb) {
@@ -1096,9 +1096,9 @@ nodeunit = (function () {
 		}
 
 		async.queue = function (worker, concurrency) {
-			var workers = 0
-			var tasks = []
-			var q = {
+			let workers = 0
+			let tasks = []
+			let q = {
 				concurrency: concurrency,
 				push: function (data, callback) {
 					tasks.push({data: data, callback: callback})
@@ -1106,7 +1106,7 @@ nodeunit = (function () {
 				},
 				process: function () {
 					if (workers < q.concurrency && tasks.length) {
-						var task = tasks.splice(0, 1)[0]
+						let task = tasks.splice(0, 1)[0]
 						workers += 1
 						worker(task.data, function () {
 							workers -= 1
@@ -1124,14 +1124,14 @@ nodeunit = (function () {
 			return q
 		}
 
-		var _console_fn = function (name) {
+		let _console_fn = function (name) {
 			return function (fn) {
-				var args = Array.prototype.slice.call(arguments, 1)
+				let args = Array.prototype.slice.call(arguments, 1)
 				fn.apply(
 					null,
 					args.concat([
 						function (err) {
-							var args = Array.prototype.slice.call(arguments, 1)
+							let args = Array.prototype.slice.call(arguments, 1)
 							if (typeof console !== 'undefined') {
 								if (err) {
 									if (console.error) {
@@ -1155,16 +1155,16 @@ nodeunit = (function () {
     async.error = _console_fn('error');*/
 
 		async.memoize = function (fn, hasher) {
-			var memo = {}
+			let memo = {}
 			hasher =
 				hasher ||
 				function (x) {
 					return x
 				}
 			return function () {
-				var args = Array.prototype.slice.call(arguments)
-				var callback = args.pop()
-				var key = hasher.apply(null, args)
+				let args = Array.prototype.slice.call(arguments)
+				let callback = args.pop()
+				let key = hasher.apply(null, args)
 				if (key in memo) {
 					callback.apply(null, memo[key])
 				} else {
@@ -1192,13 +1192,13 @@ nodeunit = (function () {
 		 * Added for browser compatibility
 		 */
 
-		var _keys = function (obj) {
+		let _keys = function (obj) {
 			if (Object.keys) return Object.keys(obj)
 			if (typeof obj != 'object' && typeof obj != 'function') {
 				throw new TypeError('-')
 			}
-			var keys = []
-			for (var k in obj) {
+			let keys = []
+			for (let k in obj) {
 				if (obj.hasOwnProperty(k)) keys.push(k)
 			}
 			return keys
@@ -1228,13 +1228,13 @@ nodeunit = (function () {
 		// ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 		// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-		var pSlice = Array.prototype.slice
+		let pSlice = Array.prototype.slice
 
 		// 1. The assert module provides functions that throw
 		// AssertionError's when particular conditions are not met. The
 		// assert module must conform to the following interface.
 
-		var assert = exports
+		let assert = exports
 
 		// 2. The AssertionError is defined in assert.
 		// new assert.AssertionError({message: message, actual: actual, expected: expected})
@@ -1256,7 +1256,7 @@ nodeunit = (function () {
 
 		// EDITED FOR BROWSER COMPATIBILITY: replaced Object.create call
 		// TODO: test what effect this may have
-		var ctor = function () {
+		let ctor = function () {
 			this.constructor = assert.AssertionError
 		}
 		ctor.prototype = Error.prototype
@@ -1340,7 +1340,7 @@ nodeunit = (function () {
 			}
 		}
 
-		var Buffer = null
+		let Buffer = null
 		if (typeof require !== 'undefined' && typeof process !== 'undefined') {
 			try {
 				Buffer = require('buffer').Buffer
@@ -1374,7 +1374,7 @@ nodeunit = (function () {
 				)
 			} else if (Buffer && actual instanceof Buffer && expected instanceof Buffer) {
 				return (function () {
-					var i, len
+					let i, len
 
 					for (i = 0, len = expected.length; i < len; i++) {
 						if (actual[i] !== expected[i]) {
@@ -1423,7 +1423,7 @@ nodeunit = (function () {
 				return _deepEqual(a, b)
 			}
 			try {
-				var ka = _keys(a),
+				let ka = _keys(a),
 					kb = _keys(b),
 					key,
 					i
@@ -1493,7 +1493,7 @@ nodeunit = (function () {
 		}
 
 		function _throws(shouldThrow, block, expected, message) {
-			var actual
+			let actual
 
 			if (typeof expected === 'string') {
 				message = expected
@@ -1586,10 +1586,10 @@ nodeunit = (function () {
 		 */
 
 		exports.assertionList = function (arr, duration) {
-			var that = arr || []
+			let that = arr || []
 			that.failures = function () {
-				var failures = 0
-				for (var i = 0; i < this.length; i += 1) {
+				let failures = 0
+				for (let i = 0; i < this.length; i += 1) {
 					if (this[i].failed()) {
 						failures += 1
 					}
@@ -1611,11 +1611,11 @@ nodeunit = (function () {
 		 * @api private
 		 */
 
-		var assertWrapper = function (callback) {
+		let assertWrapper = function (callback) {
 			return function (new_method, assert_method, arity) {
 				return function () {
-					var message = arguments[arity - 1]
-					var a = exports.assertion({method: new_method, message: message})
+					let message = arguments[arity - 1]
+					let a = exports.assertion({method: new_method, message: message})
 					try {
 						assert[assert_method].apply(null, arguments)
 					} catch (e) {
@@ -1639,10 +1639,10 @@ nodeunit = (function () {
 		 */
 
 		exports.test = function (name, start, options, callback) {
-			var expecting
-			var a_list = []
+			let expecting
+			let a_list = []
 
-			var wrapAssert = assertWrapper(function (a) {
+			let wrapAssert = assertWrapper(function (a) {
 				a_list.push(a)
 				if (options.log) {
 					async.nextTick(function () {
@@ -1651,11 +1651,11 @@ nodeunit = (function () {
 				}
 			})
 
-			var test = {
+			let test = {
 				done: function (err) {
 					if (expecting !== undefined && expecting !== a_list.length) {
-						var e = new Error('Expected ' + expecting + ' assertions, ' + a_list.length + ' ran')
-						var a1 = exports.assertion({method: 'expect', error: e})
+						let e = new Error('Expected ' + expecting + ' assertions, ' + a_list.length + ' ran')
+						let a1 = exports.assertion({method: 'expect', error: e})
 						a_list.push(a1)
 						if (options.log) {
 							async.nextTick(function () {
@@ -1664,7 +1664,7 @@ nodeunit = (function () {
 						}
 					}
 					if (err) {
-						var a2 = exports.assertion({error: err})
+						let a2 = exports.assertion({error: err})
 						a_list.push(a2)
 						if (options.log) {
 							async.nextTick(function () {
@@ -1672,9 +1672,9 @@ nodeunit = (function () {
 							})
 						}
 					}
-					var end = new Date().getTime()
+					let end = new Date().getTime()
 					async.nextTick(function () {
-						var assertion_list = exports.assertionList(a_list, end - start)
+						let assertion_list = exports.assertionList(a_list, end - start)
 						options.testDone(name, assertion_list)
 						callback(null, a_list)
 					})
@@ -1688,7 +1688,7 @@ nodeunit = (function () {
 				_assertion_list: a_list,
 			}
 			// add all functions from the assert module
-			for (var k in assert) {
+			for (let k in assert) {
 				if (assert.hasOwnProperty(k)) {
 					test[k] = wrapAssert(k, k, assert[k].length)
 				}
@@ -1706,7 +1706,7 @@ nodeunit = (function () {
 		 */
 
 		exports.options = function (opt) {
-			var optionalCallback = function (name) {
+			let optionalCallback = function (name) {
 				opt[name] = opt[name] || function () {}
 			}
 
@@ -1741,12 +1741,12 @@ nodeunit = (function () {
 		 * Added for browser compatibility
 		 */
 
-		var _keys = function (obj) {
+		let _keys = function (obj) {
 			if (Object.keys) {
 				return Object.keys(obj)
 			}
-			var keys = []
-			for (var k in obj) {
+			let keys = []
+			for (let k in obj) {
 				if (obj.hasOwnProperty(k)) {
 					keys.push(k)
 				}
@@ -1754,10 +1754,10 @@ nodeunit = (function () {
 			return keys
 		}
 
-		var _copy = function (obj) {
-			var nobj = {}
-			var keys = _keys(obj)
-			for (var i = 0; i < keys.length; i += 1) {
+		let _copy = function (obj) {
+			let nobj = {}
+			let keys = _keys(obj)
+			for (let i = 0; i < keys.length; i += 1) {
 				nobj[keys[i]] = obj[keys[i]]
 			}
 			return nobj
@@ -1776,11 +1776,11 @@ nodeunit = (function () {
 		 */
 
 		exports.runTest = function (name, fn, opt, callback) {
-			var options = types.options(opt)
+			let options = types.options(opt)
 
 			options.testStart(name)
-			var start = new Date().getTime()
-			var test = types.test(name, start, options, callback)
+			let start = new Date().getTime()
+			let test = types.test(name, start, options, callback)
 
 			options.testReady(test)
 			try {
@@ -1807,12 +1807,12 @@ nodeunit = (function () {
 
 		exports.runSuite = function (name, suite, opt, callback) {
 			suite = wrapGroup(suite)
-			var keys = _keys(suite)
+			let keys = _keys(suite)
 
 			async.concatSeries(
 				keys,
 				function (k, cb) {
-					var prop = suite[k],
+					let prop = suite[k],
 						_name
 
 					_name = name ? [].concat(name, k) : [k]
@@ -1822,9 +1822,9 @@ nodeunit = (function () {
 					}
 
 					if (typeof prop === 'function') {
-						var in_name = false,
+						let in_name = false,
 							in_specific_test = _name.toString() === opt.testFullSpec ? true : false
-						for (var i = 0; i < _name.length; i += 1) {
+						for (let i = 0; i < _name.length; i += 1) {
 							if (_name[i] === opt.testspec) {
 								in_name = true
 							}
@@ -1857,10 +1857,10 @@ nodeunit = (function () {
 		 */
 
 		exports.runModule = function (name, mod, opt, callback) {
-			var options = _copy(types.options(opt))
+			let options = _copy(types.options(opt))
 
-			var _run = false
-			var _moduleStart = options.moduleStart
+			let _run = false
+			let _moduleStart = options.moduleStart
 
 			mod = wrapGroup(mod)
 
@@ -1872,11 +1872,11 @@ nodeunit = (function () {
 			}
 			options.moduleStart = run_once
 
-			var start = new Date().getTime()
+			let start = new Date().getTime()
 
 			exports.runSuite(null, mod, options, function (err, a_list) {
-				var end = new Date().getTime()
-				var assertion_list = types.assertionList(a_list, end - start)
+				let end = new Date().getTime()
+				let assertion_list = types.assertionList(a_list, end - start)
 				options.moduleDone(name, assertion_list)
 				if (nodeunit.complete) {
 					nodeunit.complete(name, assertion_list)
@@ -1897,9 +1897,9 @@ nodeunit = (function () {
 
 		// TODO: add proper unit tests for this function
 		exports.runModules = function (modules, opt) {
-			var all_assertions = []
-			var options = types.options(opt)
-			var start = new Date().getTime()
+			let all_assertions = []
+			let options = types.options(opt)
+			let start = new Date().getTime()
 
 			async.concatSeries(
 				_keys(modules),
@@ -1907,7 +1907,7 @@ nodeunit = (function () {
 					exports.runModule(k, modules[k], options, cb)
 				},
 				function (err, all_assertions) {
-					var end = new Date().getTime()
+					let end = new Date().getTime()
 					options.done(types.assertionList(all_assertions, end - start))
 				},
 			)
@@ -1923,11 +1923,11 @@ nodeunit = (function () {
 		 * @api private
 		 */
 
-		var wrapTest = function (setUp, tearDown, fn) {
+		let wrapTest = function (setUp, tearDown, fn) {
 			return function (test) {
-				var context = {}
+				let context = {}
 				if (tearDown) {
-					var done = test.done
+					let done = test.done
 					test.done = function (err) {
 						try {
 							tearDown.call(context, function (err2) {
@@ -1963,14 +1963,14 @@ nodeunit = (function () {
 		 * @api private
 		 */
 
-		var getSerialCallback = function (fns) {
+		let getSerialCallback = function (fns) {
 			if (!fns.length) {
 				return null
 			}
 			return function (callback) {
-				var that = this
-				var bound_fns = []
-				for (var i = 0, len = fns.length; i < len; i++) {
+				let that = this
+				let bound_fns = []
+				for (let i = 0, len = fns.length; i < len; i++) {
 					;(function (j) {
 						bound_fns.push(function () {
 							return fns[j].apply(that, arguments)
@@ -1991,11 +1991,11 @@ nodeunit = (function () {
 		 * @api private
 		 */
 
-		var wrapGroup = function (group, setUps, tearDowns) {
-			var tests = {}
+		let wrapGroup = function (group, setUps, tearDowns) {
+			let tests = {}
 
-			var setUps = setUps ? setUps.slice() : []
-			var tearDowns = tearDowns ? tearDowns.slice() : []
+			let setUps = setUps ? setUps.slice() : []
+			let tearDowns = tearDowns ? tearDowns.slice() : []
 
 			if (group.setUp) {
 				setUps.push(group.setUp)
@@ -2006,10 +2006,10 @@ nodeunit = (function () {
 				delete group.tearDown
 			}
 
-			var keys = _keys(group)
+			let keys = _keys(group)
 
-			for (var i = 0; i < keys.length; i += 1) {
-				var k = keys[i]
+			for (let i = 0; i < keys.length; i += 1) {
+				let k = keys[i]
 				if (typeof group[k] === 'function') {
 					tests[k] = wrapTest(getSerialCallback(setUps), getSerialCallback(tearDowns), group[k])
 				} else if (typeof group[k] === 'object') {
@@ -2057,7 +2057,7 @@ nodeunit = (function () {
 		 */
 
 		exports.run = function (modules, options, callback) {
-			var start = new Date().getTime(),
+			let start = new Date().getTime(),
 				div,
 				textareas,
 				displayErrorsByDefault
@@ -2075,7 +2075,7 @@ nodeunit = (function () {
 			}
 
 			function getOrCreate(tag, id) {
-				var el = document.getElementById(id)
+				let el = document.getElementById(id)
 				if (!el) {
 					el = document.createElement(tag)
 					el.id = id
@@ -2084,11 +2084,11 @@ nodeunit = (function () {
 				return el
 			}
 
-			var header = getOrCreate('h1', 'nodeunit-header')
-			var banner = getOrCreate('h2', 'nodeunit-banner')
-			var userAgent = getOrCreate('h2', 'nodeunit-userAgent')
-			var tests = getOrCreate('ol', 'nodeunit-tests')
-			var result = getOrCreate('p', 'nodeunit-testresult')
+			let header = getOrCreate('h1', 'nodeunit-header')
+			let banner = getOrCreate('h2', 'nodeunit-banner')
+			let userAgent = getOrCreate('h2', 'nodeunit-userAgent')
+			let tests = getOrCreate('ol', 'nodeunit-tests')
+			let result = getOrCreate('p', 'nodeunit-testresult')
 
 			setText(userAgent, navigator.userAgent)
 
@@ -2101,8 +2101,8 @@ nodeunit = (function () {
             results.appendChild(module);*/
 				},
 				testDone: function (name, assertions) {
-					var test = document.createElement('li')
-					var strong = document.createElement('strong')
+					let test = document.createElement('li')
+					let strong = document.createElement('strong')
 					strong.innerHTML =
 						name +
 						' <b style="color: black;">(' +
@@ -2117,15 +2117,15 @@ nodeunit = (function () {
 					test.className = assertions.failures() ? 'fail' : 'pass'
 					test.appendChild(strong)
 
-					var aList = document.createElement('ol')
+					let aList = document.createElement('ol')
 					aList.style.display = displayErrorsByDefault ? 'block' : 'none'
 					;(displayErrorsByDefault ? strong : test).onclick = function () {
-						var d = aList.style.display
+						let d = aList.style.display
 						aList.style.display = d == 'none' ? 'block' : 'none'
 					}
-					for (var i = 0; i < assertions.length; i++) {
-						var li = document.createElement('li')
-						var a = assertions[i]
+					for (let i = 0; i < assertions.length; i++) {
+						let li = document.createElement('li')
+						let a = assertions[i]
 						if (a.failed()) {
 							li.innerHTML =
 								(a.message || a.method || 'no message') +
@@ -2143,10 +2143,10 @@ nodeunit = (function () {
 					tests.appendChild(test)
 				},
 				done: function (assertions) {
-					var end = new Date().getTime()
-					var duration = end - start
+					let end = new Date().getTime()
+					let duration = end - start
 
-					var failures = assertions.failures()
+					let failures = assertions.failures()
 					banner.className = failures ? 'fail' : 'pass'
 
 					result.innerHTML =
