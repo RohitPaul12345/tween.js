@@ -233,7 +233,7 @@ nodeunit = (function () {
 			return escapable.test(string)
 				? '"' +
 						string.replace(escapable, function (a) {
-							var c = meta[a]
+							let c = meta[a]
 							return typeof c === 'string' ? c : '\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4)
 						}) +
 						'"'
@@ -639,7 +639,7 @@ nodeunit = (function () {
 		}
 		let doSeries = function (fn) {
 			return function () {
-				var args = Array.prototype.slice.call(arguments)
+				let args = Array.prototype.slice.call(arguments)
 				return fn.apply(null, [async.forEachSeries].concat(args))
 			}
 		}
