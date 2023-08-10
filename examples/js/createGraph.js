@@ -1,14 +1,14 @@
 function createGraph(t, f, c) {
-	var div = document.createElement('div')
+	let div = document.createElement('div')
 	div.style.display = 'inline-block'
 	div.style.width = '200px'
 	div.style.height = '120px'
 
-	var canvas = document.createElement('canvas')
+	let canvas = document.createElement('canvas')
 	canvas.width = 180
 	canvas.height = 100
 
-	var context = canvas.getContext('2d')
+	let context = canvas.getContext('2d')
 	context.fillStyle = 'rgb(250,250,250)'
 	context.fillRect(0, 0, 180, 100)
 
@@ -26,8 +26,8 @@ function createGraph(t, f, c) {
 	context.lineWidth = 2
 	context.strokeStyle = 'rgb(255,127,127)'
 
-	var position = {x: 5, y: 80}
-	var position_old = {x: 5, y: 80}
+	let position = {x: 5, y: 80}
+	let position_old = {x: 5, y: 80}
 
 	new TWEEN.Tween(position).to({x: 175}, 2000).easing(TWEEN.Easing.Linear.None).start()
 	new TWEEN.Tween(position)
