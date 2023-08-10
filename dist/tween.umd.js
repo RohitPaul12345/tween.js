@@ -7,7 +7,7 @@
     /**
      * The Ease class provides a collection of easing functions for use with tween.js.
      */
-    var Easing = Object.freeze({
+    let Easing = Object.freeze({
         Linear: Object.freeze({
             None: function (amount) {
                 return amount;
@@ -162,11 +162,11 @@
                 return amount === 1 ? 1 : amount * amount * ((s + 1) * amount - s);
             },
             Out: function (amount) {
-                var s = 1.70158;
+                let s = 1.70158;
                 return amount === 0 ? 0 : --amount * amount * ((s + 1) * amount + s) + 1;
             },
             InOut: function (amount) {
-                var s = 1.70158 * 1.525;
+                let s = 1.70158 * 1.525;
                 if ((amount *= 2) < 1) {
                     return 0.5 * (amount * amount * ((s + 1) * amount - s));
                 }
@@ -219,7 +219,7 @@
         },
     });
 
-    var now = function () { return performance.now(); };
+    let now = function () { return performance.now(); };
 
     /**
      * Controlling groups of tweens
@@ -227,13 +227,13 @@
      * Using the TWEEN singleton to manage your tweens can cause issues in large apps with many components.
      * In these cases, you may want to create your own smaller groups of tween
      */
-    var Group = /** @class */ (function () {
+    let Group = /** @class */ (function () {
         function Group() {
             this._tweens = {};
             this._tweensAddedDuringUpdate = {};
         }
         Group.prototype.getAll = function () {
-            var _this = this;
+            let _this = this;
             return Object.keys(this._tweens).map(function (tweenId) {
                 return _this._tweens[tweenId];
             });
@@ -252,7 +252,7 @@
         Group.prototype.update = function (time, preserve) {
             if (time === void 0) { time = now(); }
             if (preserve === void 0) { preserve = false; }
-            var tweenIds = Object.keys(this._tweens);
+            let tweenIds = Object.keys(this._tweens);
             if (tweenIds.length === 0) {
                 return false;
             }
@@ -263,9 +263,9 @@
             // then it will not be updated.
             while (tweenIds.length > 0) {
                 this._tweensAddedDuringUpdate = {};
-                for (var i = 0; i < tweenIds.length; i++) {
-                    var tween = this._tweens[tweenIds[i]];
-                    var autoStart = !preserve;
+                for (let i = 0; i < tweenIds.length; i++) {
+                    let tween = this._tweens[tweenIds[i]];
+                    let autoStart = !preserve;
                     if (tween && tween.update(time, autoStart) === false && !preserve) {
                         delete this._tweens[tweenIds[i]];
                     }
@@ -280,12 +280,12 @@
     /**
      *
      */
-    var Interpolation = {
+    let Interpolation = {
         Linear: function (v, k) {
-            var m = v.length - 1;
-            var f = m * k;
-            var i = Math.floor(f);
-            var fn = Interpolation.Utils.Linear;
+            let m = v.length - 1;
+            let f = m * k;
+            let i = Math.floor(f);
+            let fn = Interpolation.Utils.Linear;
             if (k < 0) {
                 return fn(v[0], v[1], f);
             }
@@ -295,20 +295,20 @@
             return fn(v[i], v[i + 1 > m ? m : i + 1], f - i);
         },
         Bezier: function (v, k) {
-            var b = 0;
-            var n = v.length - 1;
-            var pw = Math.pow;
-            var bn = Interpolation.Utils.Bernstein;
-            for (var i = 0; i <= n; i++) {
+            let b = 0;
+            let n = v.length - 1;
+            let pw = Math.pow;
+            let bn = Interpolation.Utils.Bernstein;
+            for (let i = 0; i <= n; i++) {
                 b += pw(1 - k, n - i) * pw(k, i) * v[i] * bn(n, i);
             }
             return b;
         },
         CatmullRom: function (v, k) {
-            var m = v.length - 1;
-            var f = m * k;
-            var i = Math.floor(f);
-            var fn = Interpolation.Utils.CatmullRom;
+            let m = v.length - 1;
+            let f = m * k;
+            let i = Math.floor(f);
+            let fn = Interpolation.Utils.CatmullRom;
             if (v[0] === v[m]) {
                 if (k < 0) {
                     i = Math.floor((f = m * (1 + k)));
@@ -330,17 +330,17 @@
                 return (p1 - p0) * t + p0;
             },
             Bernstein: function (n, i) {
-                var fc = Interpolation.Utils.Factorial;
+                let fc = Interpolation.Utils.Factorial;
                 return fc(n) / fc(i) / fc(n - i);
             },
             Factorial: (function () {
-                var a = [1];
+                let a = [1];
                 return function (n) {
-                    var s = 1;
+                    let s = 1;
                     if (a[n]) {
                         return a[n];
                     }
-                    for (var i = n; i > 1; i--) {
+                    for (let i = n; i > 1; i--) {
                         s *= i;
                     }
                     a[n] = s;
@@ -348,10 +348,10 @@
                 };
             })(),
             CatmullRom: function (p0, p1, p2, p3, t) {
-                var v0 = (p2 - p0) * 0.5;
-                var v1 = (p3 - p1) * 0.5;
-                var t2 = t * t;
-                var t3 = t * t2;
+                let v0 = (p2 - p0) * 0.5;
+                let v1 = (p3 - p1) * 0.5;
+                let t2 = t * t;
+                let t3 = t * t2;
                 return (2 * p1 - 2 * p2 + v0 + v1) * t3 + (-3 * p1 + 3 * p2 - 2 * v0 - v1) * t2 + v0 * t + p1;
             },
         },
@@ -360,7 +360,7 @@
     /**
      * Utils
      */
-    var Sequence = /** @class */ (function () {
+    let Sequence = /** @class */ (function () {
         function Sequence() {
         }
         Sequence.nextId = function () {
@@ -370,7 +370,7 @@
         return Sequence;
     }());
 
-    var mainGroup = new Group();
+    let mainGroup = new Group();
 
     /**
      * Tween.js - Licensed under the MIT license
@@ -380,7 +380,7 @@
      * See https://github.com/tweenjs/tween.js/graphs/contributors for the full list of contributors.
      * Thank you all, you're awesome!
      */
-    var Tween = /** @class */ (function () {
+    let Tween = /** @class */ (function () {
         function Tween(_object, _group) {
             if (_group === void 0) { _group = mainGroup; }
             this._object = _object;
@@ -480,11 +480,11 @@
             return this.start(time, true);
         };
         Tween.prototype._setupProperties = function (_object, _valuesStart, _valuesEnd, _valuesStartRepeat, overrideStartingValues) {
-            for (var property in _valuesEnd) {
-                var startValue = _object[property];
-                var startValueIsArray = Array.isArray(startValue);
-                var propType = startValueIsArray ? 'array' : typeof startValue;
-                var isInterpolationList = !startValueIsArray && Array.isArray(_valuesEnd[property]);
+            for (let property in _valuesEnd) {
+                let startValue = _object[property];
+                let startValueIsArray = Array.isArray(startValue);
+                let propType = startValueIsArray ? 'array' : typeof startValue;
+                let isInterpolationList = !startValueIsArray && Array.isArray(_valuesEnd[property]);
                 // If `to()` specifies a property that doesn't exist in the source object,
                 // we should not set that property in the object
                 if (propType === 'undefined' || propType === 'function') {
@@ -492,15 +492,15 @@
                 }
                 // Check if an Array was provided as property value
                 if (isInterpolationList) {
-                    var endValues = _valuesEnd[property];
+                    let endValues = _valuesEnd[property];
                     if (endValues.length === 0) {
                         continue;
                     }
                     // Handle an array of relative values.
                     // Creates a local copy of the Array with the start value at the front
-                    var temp = [startValue];
-                    for (var i = 0, l = endValues.length; i < l; i += 1) {
-                        var value = this._handleRelativeValue(startValue, endValues[i]);
+                    let temp = [startValue];
+                    for (let i = 0, l = endValues.length; i < l; i += 1) {
+                        let value = this._handleRelativeValue(startValue, endValues[i]);
                         if (isNaN(value)) {
                             isInterpolationList = false;
                             console.warn('Found invalid interpolation list. Skipping.');
@@ -517,17 +517,17 @@
                 // handle the deepness of the values
                 if ((propType === 'object' || startValueIsArray) && startValue && !isInterpolationList) {
                     _valuesStart[property] = startValueIsArray ? [] : {};
-                    var nestedObject = startValue;
-                    for (var prop in nestedObject) {
+                    let nestedObject = startValue;
+                    for (let prop in nestedObject) {
                         _valuesStart[property][prop] = nestedObject[prop];
                     }
                     // TODO? repeat nested values? And yoyo? And array values?
                     _valuesStartRepeat[property] = startValueIsArray ? [] : {};
-                    var endValues = _valuesEnd[property];
+                    let endValues = _valuesEnd[property];
                     // If dynamic is not enabled, clone the end values instead of using the passed-in end values.
                     if (!this._isDynamic) {
-                        var tmp = {};
-                        for (var prop in endValues)
+                        let tmp = {};
+                        for (let prop in endValues)
                             tmp[prop] = endValues[prop];
                         _valuesEnd[property] = endValues = tmp;
                     }
@@ -600,7 +600,7 @@
             return this;
         };
         Tween.prototype.stopChainedTweens = function () {
-            for (var i = 0, numChainedTweens = this._chainedTweens.length; i < numChainedTweens; i++) {
+            for (let i = 0, numChainedTweens = this._chainedTweens.length; i < numChainedTweens; i++) {
                 this._chainedTweens[i].stop();
             }
             return this;
@@ -642,8 +642,8 @@
         };
         // eslint-disable-next-line
         Tween.prototype.chain = function () {
-            var tweens = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
+            let tweens = [];
+            for (let _i = 0; _i < arguments.length; _i++) {
                 tweens[_i] = arguments[_i];
             }
             this._chainedTweens = tweens;
@@ -683,9 +683,9 @@
             if (autoStart === void 0) { autoStart = true; }
             if (this._isPaused)
                 return true;
-            var property;
-            var elapsed;
-            var endTime = this._startTime + this._duration;
+            let property;
+            let elapsed;
+            let endTime = this._startTime + this._duration;
             if (!this._goToEnd && !this._isPlaying) {
                 if (time > endTime)
                     return false;
@@ -710,7 +710,7 @@
             }
             elapsed = (time - this._startTime) / this._duration;
             elapsed = this._duration === 0 || elapsed > 1 ? 1 : elapsed;
-            var value = this._easingFunction(elapsed);
+            let value = this._easingFunction(elapsed);
             // properties transformations
             this._updateProperties(this._object, this._valuesStart, this._valuesEnd, value);
             if (this._onUpdateCallback) {
@@ -753,7 +753,7 @@
                     if (this._onCompleteCallback) {
                         this._onCompleteCallback(this._object);
                     }
-                    for (var i = 0, numChainedTweens = this._chainedTweens.length; i < numChainedTweens; i++) {
+                    for (let i = 0, numChainedTweens = this._chainedTweens.length; i < numChainedTweens; i++) {
                         // Make the chained tweens start exactly at the time they should,
                         // even if the `update()` method was called way past the duration of the tween
                         this._chainedTweens[i].start(this._startTime + this._duration, false);
@@ -765,16 +765,16 @@
             return true;
         };
         Tween.prototype._updateProperties = function (_object, _valuesStart, _valuesEnd, value) {
-            for (var property in _valuesEnd) {
+            for (let property in _valuesEnd) {
                 // Don't update properties that do not exist in the source object
                 if (_valuesStart[property] === undefined) {
                     continue;
                 }
-                var start = _valuesStart[property] || 0;
-                var end = _valuesEnd[property];
-                var startIsArray = Array.isArray(_object[property]);
-                var endIsArray = Array.isArray(end);
-                var isInterpolationList = !startIsArray && endIsArray;
+                let start = _valuesStart[property] || 0;
+                let end = _valuesEnd[property];
+                let startIsArray = Array.isArray(_object[property]);
+                let endIsArray = Array.isArray(end);
+                let isInterpolationList = !startIsArray && endIsArray;
                 if (isInterpolationList) {
                     _object[property] = this._interpolationFunction(end, value);
                 }
@@ -805,8 +805,8 @@
             return parseFloat(end);
         };
         Tween.prototype._swapEndStartRepeatValues = function (property) {
-            var tmp = this._valuesStartRepeat[property];
-            var endValue = this._valuesEnd[property];
+            let tmp = this._valuesStartRepeat[property];
+            let endValue = this._valuesEnd[property];
             if (typeof endValue === 'string') {
                 this._valuesStartRepeat[property] = this._valuesStartRepeat[property] + parseFloat(endValue);
             }
@@ -818,7 +818,7 @@
         return Tween;
     }());
 
-    var VERSION = '21.0.0';
+    let VERSION = '21.0.0';
 
     /**
      * Tween.js - Licensed under the MIT license
@@ -828,24 +828,24 @@
      * See https://github.com/tweenjs/tween.js/graphs/contributors for the full list of contributors.
      * Thank you all, you're awesome!
      */
-    var nextId = Sequence.nextId;
+    let nextId = Sequence.nextId;
     /**
      * Controlling groups of tweens
      *
      * Using the TWEEN singleton to manage your tweens can cause issues in large apps with many components.
      * In these cases, you may want to create your own smaller groups of tweens.
      */
-    var TWEEN = mainGroup;
+    let TWEEN = mainGroup;
     // This is the best way to export things in a way that's compatible with both ES
     // Modules and CommonJS, without build hacks, and so as not to break the
     // existing API.
     // https://github.com/rollup/rollup/issues/1961#issuecomment-423037881
-    var getAll = TWEEN.getAll.bind(TWEEN);
-    var removeAll = TWEEN.removeAll.bind(TWEEN);
-    var add = TWEEN.add.bind(TWEEN);
-    var remove = TWEEN.remove.bind(TWEEN);
-    var update = TWEEN.update.bind(TWEEN);
-    var exports$1 = {
+    let getAll = TWEEN.getAll.bind(TWEEN);
+    let removeAll = TWEEN.removeAll.bind(TWEEN);
+    let add = TWEEN.add.bind(TWEEN);
+    let remove = TWEEN.remove.bind(TWEEN);
+    let update = TWEEN.update.bind(TWEEN);
+    let exports$1 = {
         Easing: Easing,
         Group: Group,
         Interpolation: Interpolation,
